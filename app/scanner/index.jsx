@@ -1,5 +1,5 @@
 import { SafeAreaView, Text, View, TouchableOpacity, Pressable } from "react-native";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { useCameraPermissions } from "expo-camera";
 
 export default function Scanner() {
@@ -9,8 +9,12 @@ export default function Scanner() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
-         
-        
+      <Stack.Screen
+              options={{
+                title: `Ürün okut`,
+                headerShown: true,
+              }}
+      />
       <View className="flex-1 justify-center items-center p-6">
         <Text className="text-3xl font-bold text-gray-800 mb-4">
           📷 Scanner
@@ -27,12 +31,13 @@ export default function Scanner() {
                     </Text> 
                 </Pressable>
             </Link>
-          
-          <TouchableOpacity className="bg-green-500 p-4 rounded-lg mb-4">
-            <Text className="text-white text-center font-semibold text-lg">
-              Manual Entry
-            </Text>
-          </TouchableOpacity>
+          <Link href="/scanner/manualEntry" asChild>
+            <TouchableOpacity className="bg-green-500 p-4 rounded-lg mb-4">
+              <Text className="text-white text-center font-semibold text-lg">
+                Manual Entry
+              </Text>
+            </TouchableOpacity>
+          </Link>
           
           <Link href="/" asChild>
             <TouchableOpacity className="bg-gray-500 p-4 rounded-lg mb-4">

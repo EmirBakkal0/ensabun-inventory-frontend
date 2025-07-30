@@ -1,9 +1,15 @@
 import { SafeAreaView, Text, View, TouchableOpacity } from "react-native";
-import { Link } from "expo-router";
+import { Link,Stack } from "expo-router";
 
 export default function Home() {
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
+      <Stack.Screen
+        options={{
+          title: `Home`,
+          headerShown: true,
+        }}
+        />
       <View className="flex-1 justify-center items-center p-6">
         <Text className="text-3xl font-bold text-gray-800 mb-4">
           Ensabun Inventory
