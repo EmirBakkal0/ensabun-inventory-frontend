@@ -26,6 +26,20 @@ export default function Home() {
               </Text>
             </TouchableOpacity>
           </Link>
+          <Link href="/addProduct" asChild>
+            <TouchableOpacity className="bg-red-500 p-4 rounded-lg mb-4">
+              <Text className="text-white text-center font-semibold text-lg">
+                📦 Ürün Ekle
+              </Text>
+            </TouchableOpacity>
+          </Link><Link href="/editProduct" asChild>
+            <TouchableOpacity className="bg-yellow-500 p-4 rounded-lg mb-4">
+              <Text className="text-white text-center font-semibold text-lg">
+                📦 Ürün Düzenle
+              </Text>
+            </TouchableOpacity>
+          </Link>
+          
           
           <Link href="/inventory" asChild>
             <TouchableOpacity className="bg-green-500 p-4 rounded-lg mb-4">

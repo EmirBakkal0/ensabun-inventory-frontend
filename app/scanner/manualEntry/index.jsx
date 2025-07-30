@@ -14,7 +14,7 @@ export default function ManualEntry() {
         }} />
       <View className='flex-1 justify-center items-center'>
         <Text className='font-bold text-lg text-center'>
-          Elle giriş yapmak istediğiniz ürünün ID'sini girin
+          Elle giriş yapmak istediğiniz ürünün ID&#39;sini girin
         </Text>
         <TextInput placeholder='Enter Product ID' 
         style={{ width: '100%', borderWidth: 1, borderColor: '#ccc', padding: 10, borderRadius: 5, marginTop: 20 }}
