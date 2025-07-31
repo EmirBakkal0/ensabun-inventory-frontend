@@ -77,7 +77,7 @@ export default function AddProduct() {
     <SafeAreaView style={styles.container}>
       <Stack.Screen
         options={{
-          title: `Ürün Ekle`,
+          title: `Yeni Ürün Ekle`,
           headerShown: true,
         }}
       />

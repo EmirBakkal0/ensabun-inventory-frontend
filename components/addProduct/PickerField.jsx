@@ -30,7 +30,7 @@ export default function PickerField(props) {
           {options.map((option, index) => (
             <Picker.Item 
               key={option.productTypeID || index} 
-              label={option.productType} 
+              label={option.productName || option.productType} /// Use productName if available, otherwise productType
               value={option.productTypeID} 
             />
           ))}

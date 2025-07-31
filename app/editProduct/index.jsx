@@ -16,6 +16,39 @@ export default function EditProduct() {
     const [productQuantity, setProductQuantity] = React.useState('');
 
 
+
+    React.useEffect(() => { 
+        const fetchProductTypes = async () => {
+          try {
+            const response = await fetch(`http://192.168.10.171:3001/api/product-types`);
+            const objectData = await response.json();
+      
+            const mainData = objectData.data || objectData; // Adjust based on your API response structure
+            // Set product type options from API response
+            setProductTypeOptions(mainData);
+          } catch (error) {
+            console.error('Error fetching product types:', error);
+          }
+        };
+    
+        fetchProductTypes();
+      }, []);
+
+      React.useEffect(() => {
+        const fetchProductNames = async () => {
+          try {
+            const response = await fetch(`http://192.168.10.171:3001/api/products`);
+            const objectData = await response.json();
+            const mainData = objectData.data || objectData;
+            setProductNameOptions(mainData);
+          } catch (error) {
+            console.error('Error fetching product names:', error);
+          }
+        };
+
+        fetchProductNames();
+      }, [productType]);
+
     const handleEditProduct = async () => {
       try {
         const response = await axios.put(`/api/products/}`, {
@@ -31,12 +64,24 @@ export default function EditProduct() {
       }
     };
 
+
+    const setProduct = (value) => {
+      setProductName(value);
+      const selectedProduct = productNameOptions.find(option => option.productName === value);
+      if (selectedProduct) {
+        setProductCost(selectedProduct.totalCost.toString());
+        setProductPrice(selectedProduct.salePrice.toString());
+        setProductQuantity(selectedProduct.stockAmount.toString());
+        setProductType(selectedProduct.productTypeID.toString());
+      }
+    }
+
     return (
     
     <SafeAreaView style={styles.container}>
       <Stack.Screen
         options={{
-          title: `Ürün Ekle`,
+          title: `Ürünü Düzenle`,
           headerShown: true,
         }}
       />
@@ -51,7 +96,7 @@ export default function EditProduct() {
         <PickerField
           label="Ürün"
           selectedValue={productName}
-          onValueChange={setProductName}
+          onValueChange={setProduct}
           options={productNameOptions}
           placeholder="Ürünün kendisini seçin"
         />
