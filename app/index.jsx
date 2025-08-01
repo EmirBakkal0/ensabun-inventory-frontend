@@ -32,7 +32,7 @@ export default function Home() {
             <MainMenuButton label="📦 Ürün Ekle" href="/addProduct" color="bg-green-500" />
           </View>
           <View className="w-[48%] mb-4">
-            <MainMenuButton label="📦 Ürün Düzenle WIP" href="/editProduct" color="bg-yellow-500" />
+            <MainMenuButton label="🆕 Kategori ekle " href="/addCategory" color="bg-yellow-500" />
           </View>
         </View>
       </View>

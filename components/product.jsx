@@ -2,37 +2,37 @@ import { View, Text } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 export default function Product(props) {
-  const { id } = props;
-  const [inventory, setInventory] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { id, inventory, loading } = props;
+  // const [inventory, setInventory] = useState({});
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        // Use your servers's IP address instead of localhost
-        const response = await fetch(`http://192.168.10.171:3001/api/products/${id}`);
-        const productData = await response.json(); 
-        console.log("Fetched product data:", productData);
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     try {
+  //       // Use your servers's IP address instead of localhost
+  //       const response = await fetch(`http://192.168.10.171:3001/api/products/${id}`);
+  //       const productData = await response.json(); 
+  //       console.log("Fetched product data:", productData);
         
-        // If your API returns data in the format: { success: true, data: {...} }
-        // Extract the actual product data from the response
-        const actualProductData = productData.data || productData;
-        setInventory(actualProductData);
-        console.log("Setting inventory to:", JSON.stringify(actualProductData, null, 2));
+  //       // If your API returns data in the format: { success: true, data: {...} }
+  //       // Extract the actual product data from the response
+  //       const actualProductData = productData.data || productData;
+  //       setInventory(actualProductData);
+  //       console.log("Setting inventory to:", JSON.stringify(actualProductData, null, 2));
         
-      } catch (error) {
-        console.error('Error fetching product fuuuuuuu', error);
+  //     } catch (error) {
+  //       console.error('Error fetching product fuuuuuuu', error);
         
         
-      } finally {
-        setLoading(false);
-      }
-    };
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    if (id) {
-      fetchProduct();
-    }
-  }, [id]);
+  //   if (id) {
+  //     fetchProduct();
+  //   }
+  // }, [id]);
 
   if (loading) {
     return (

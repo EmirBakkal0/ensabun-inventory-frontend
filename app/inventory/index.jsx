@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, FlatList, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native'
 import React from 'react'
 import axios from 'axios';
-import { useRouter, Stack } from 'expo-router';
+import { useRouter, Stack, useFocusEffect } from 'expo-router';
 
 
 export default function Inventory() {
@@ -9,30 +9,40 @@ export default function Inventory() {
     const [loading, setLoading] = React.useState(true);
     const [selectedType, setSelectedType] = React.useState('Hepsi'); // New state for filter
     const router = useRouter();
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetching inventory data from the API
-                const response = await axios.get('http://192.168.10.171:3001/api/products')
-                const data = response.data.data || response.data; // Handle API response structure
-                
-                // Sort products by productType
-                const sortedData = data.sort((a, b) => {
-                    if (a.productType && b.productType) {
-                        return a.productType.localeCompare(b.productType);
-                    }
-                    return 0;
-                });
-                
-                setInventoryData(sortedData);
-            } catch (error) {
-                console.error('Error fetching inventory data:', error);
-            } finally {
-                setLoading(false);
-            }
+    
+    const fetchData = React.useCallback(async () => {
+        try {
+            setLoading(true);
+            // Fetching inventory data from the API
+            const response = await axios.get('http://192.168.10.171:3001/api/products')
+            const data = response.data.data || response.data; // Handle API response structure
+            
+            // Sort products by productType
+            const sortedData = data.sort((a, b) => {
+                if (a.productType && b.productType) {
+                    return a.productType.localeCompare(b.productType);
+                }
+                return 0;
+            });
+            
+            setInventoryData(sortedData);
+        } catch (error) {
+            console.error('Error fetching inventory data:', error);
+        } finally {
+            setLoading(false);
         }
-        fetchData();
     }, []);
+
+    // Refresh data when screen comes into focus
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchData();
+        }, [fetchData])
+    );
+
+    React.useEffect(() => {
+        fetchData();
+    }, [fetchData]);
     
     
 
