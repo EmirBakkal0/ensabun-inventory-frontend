@@ -1,7 +1,8 @@
-import { View, Text, SafeAreaView, Image, Pressable, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, Image, Pressable, ScrollView,Modal, Alert , StyleSheet } from 'react-native'
 import React from 'react'
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import Product from '../../components/product';
+import axios from 'axios';
 
 // This page displays the details of a specific product based on the ID passed in the URL
 // It uses the Product component to fetch and display product information
@@ -9,6 +10,20 @@ import Product from '../../components/product';
 export default function Item() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const [modalVisible, setModalVisible] = React.useState(false);
+
+  const handleDeleteProduct = () => {
+    axios.delete(`http://192.168.10.171:3001/api/products/${id}`)
+      .then(response => {
+        console.log('Product deleted successfully:', response.data);
+        Alert.alert('Ürün silindi.');
+        router.push('/'); // Redirect to the home page or product list after deletion
+      })
+      .catch(error => {
+        console.error('Error deleting product:', error);
+        Alert.alert('Ürün silinirken bir hata oluştu.');
+      });
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50">
@@ -25,6 +40,38 @@ export default function Item() {
           },
         }}
       />
+       <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Silmek istediğinizden emin misiniz?</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+                
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  handleDeleteProduct();
+                  setModalVisible(!modalVisible);
+                  router.back(); // Go back to the previous screen after deletion
+                }}>
+                <Text style={styles.textStyle}>Evet</Text>
+              </Pressable>
+
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.textStyle}>Hayır</Text>
+              </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
       
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Header Section */}
@@ -77,12 +124,21 @@ export default function Item() {
               </View>
             </Pressable>
 
-            <Pressable className="bg-violet-500 rounded-xl p-4 shadow-sm">
+            <Pressable className="bg-violet-500 rounded-xl p-4 shadow-sm mb-3">
               <View className="flex-row items-center">
                 <Text className="text-2xl mr-4">📦</Text>
                 <View className="flex-1">
                   <Text className="text-white text-base font-semibold mb-0.5">Update Stock</Text>
                   <Text className="text-white text-xs opacity-80">Manage inventory</Text>
+                </View>
+              </View>
+            </Pressable>
+            <Pressable className="bg-red-500 rounded-xl p-4 shadow-sm" onPress={() => setModalVisible(true)}>
+              <View className="flex-row items-center">
+                <Text className="text-2xl mr-4">🗑️</Text>
+                <View className="flex-1">
+                  <Text className="text-white text-base font-semibold mb-0.5">Ürünü sil</Text>
+                  <Text className="text-white text-xs opacity-80">Ürünü database&apos;den sil</Text>
                 </View>
               </View>
             </Pressable>
@@ -113,3 +169,52 @@ export default function Item() {
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark semi-transparent background
+  },
+  modalView: {
+    
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 8,
+    
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    fontSize: 19,
+    marginBottom: 15,
+    textAlign: 'center',
+
+  },
+});

@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View, TouchableOpacity } from "react-native";
+import { SafeAreaView, Text, View, Image } from "react-native";
 import {Stack, Link} from "expo-router";
 import MainMenuButton from "../components/MainMenuButton";
 
@@ -13,6 +13,7 @@ export default function Home() {
         }}
         />
       <View className="flex-1 justify-center items-center">
+      <Image source={require('../assets/mainMenu.jpg')} className="w-24 h-24 rounded-xl mb-4" />
         <Text className="text-3xl font-bold text-gray-800 mb-4">
           Ensabun Envanter Yönetimi
         </Text>
@@ -22,7 +23,7 @@ export default function Home() {
 
         <View className="flex-row flex-wrap justify-between px-4">
           <View className="w-[48%] mb-4">
-            <MainMenuButton label="📋 Envanter Gözat" href="/inventory" color="bg-purple-500" />
+            <MainMenuButton label="📋 Envantere Gözat" href="/inventory" color="bg-purple-500" />
           </View>
           <View className="w-[48%] mb-4">
             <MainMenuButton label="📷 Ürün Tara" href="/scanner" color="bg-blue-500" />
